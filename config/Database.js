@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
-
-const db = new Sequelize("CrawlerV2", "root", "841639647172n", {
+                        //kiểm tra tên DB    Điền mật khẩu
+const db = new Sequelize("CrawlerV2", "root", "", {
   host: "localhost",
   dialect: "mysql", 
   logging: false,

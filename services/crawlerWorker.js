@@ -7,7 +7,7 @@ import { sha256 } from "../lib/hash.js";
 import CrawlQueue from "../models/CrawlQueue.js";
 import Page from "../models/Page.js";
 import db from "../config/Database.js";
-// 👇 path Chrome trên Windows (bạn đã kiểm tra rồi)
+//kiểm tra chromePath cho từng thiết bị
 const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
 puppeteer.use(StealthPlugin());
