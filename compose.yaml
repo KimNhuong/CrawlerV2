@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: crawler_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 841639647172n
+      MYSQL_DATABASE: crawlerv2
+      MYSQL_USER: crawler
+      MYSQL_PASSWORD: "841639647172n"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  crawler:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: crawler_app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: "841639647172n"
+      DB_DATABASE: crawlerv2
+    volumes:
+      - ./:/usr/src/app:ro
+    ports:
+      - "8080:8080"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mysql_data:
+    driver: local
